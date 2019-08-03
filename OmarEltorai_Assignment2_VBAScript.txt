@@ -1,0 +1,64 @@
+'1 - Set up
+    'Create column headers
+        Sub HeaderSetUp():
+            'Inserting data via ranges
+            Range("L1").Value = "Ticker"
+            Range("M1").Value = "Annual Volume"
+        
+            'Message to show complete
+            MsgBox ("HeaderSetUp complete")
+        End Sub
+
+'2 - Create a script that will loop through all the stocks for one year for each run and take the following information.
+
+    'The ticker symbol. List each unique ticker once
+        Sub TickerListandVolume():
+            'Set an initial variable for holding the ticker
+            Dim Unique_Ticker As String
+
+            'Set an initial variable for holding total volume
+            Dim Volume_Total As Double
+            Volume_Total = 0
+
+            'Keep track of the location for each ticker in the summary table
+            Dim Summary_Table_Row As Integer
+            Summary_Table_Row = 2
+
+            'Loop through all tickers
+            For i = 2 To 800000
+
+                'Check if we are still within the same ticker, and if not...
+                If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+                    'Set Unique_Ticker
+                    Unique_Ticker = Cells(i, 1).Value
+
+                    'Add to the Volume_Total
+                    Volume_Total = Volume_Total + Cells(i, 7).Value
+
+                    'Print the ticker symbol in the Summary Table
+                    Range("L" & Summary_Table_Row).Value = Unique_Ticker
+
+                    'Print the volume amount to the Summary Table
+                    Range("M" & Summary_Table_Row).Value = Volume_Total
+
+                    'Add one to the Summary_Table_Row
+                    Summary_Table_Row = Summary_Table_Row + 1
+
+                    'Reset the Volume_Total
+                    Volume_Total = 0
+
+                'If the cell immediately following a row is the same ticker
+                Else
+
+                    'Add to the Volume_Total
+                    Volume_Total = Volume_Total + Cells(i, 7).Value
+
+                End If
+
+            Next i
+
+        End Sub
+
+
+
